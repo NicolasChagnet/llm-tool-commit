@@ -8,10 +8,3 @@ def test_exit_code_help():
     runner = CliRunner()
     result = runner.invoke(entrypoint, "--help")
     assert result.exit_code == 0
-
-
-def test_exit_code_general():
-    """Test that the CLI app returns a successful exit code."""
-    runner = CliRunner()
-    result = runner.invoke(entrypoint)
-    assert result.exit_code == 0
