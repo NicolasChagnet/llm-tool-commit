@@ -38,5 +38,13 @@ def parse_output(model_response: str, message_max_length: int) -> str:
     commit_message = model_response[position_begin:position_end]
 
     # Truncate the commit message if necessary
-    truncation_point = min(len(commit_message), message_max_length)
-    return commit_message[:truncation_point]
+    truncated_commit = truncate_sentence(commit_message, max_words=message_max_length)
+    return truncated_commit
+
+
+def truncate_sentence(sentence: str, max_words: int) -> str:
+    """Given a sentence, truncates it if it exceeds `max_words` and ensure it ends as a sentence."""
+    sentence_split = sentence.split(" ")
+    max_words = min(max_words, len(sentence_split))
+    sentence_reconstructed = " ".join(sentence_split[:max_words])
+    return sentence_reconstructed
