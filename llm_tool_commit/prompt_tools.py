@@ -5,6 +5,8 @@ def get_prompt(git_diff: str, length_git_commit: int) -> str:
         git_diff (str): Truncated output of the `git diff --cached` command.
         length_git_commit (int): Maximal length in words of the commit message
 
+    Returns:
+        str: User prompt specifying the query.
     """
 
     return f"""Please summarize the changes made in the staged files from the output of the `git diff --cached` command placed between the XML tags <diff>. Keep your summary under {length_git_commit} words. Place the summary between XML <summary> tags. Write the summary in the conventional commit format if possible.
