@@ -26,6 +26,6 @@ class ToolConfiguration(BaseModel):
         message_max_length (int): Maximal length of the commit message. Should be an integer greater than 1. Defaults to 150.
     """
 
-    model: str = "qwen2.5-coder:1.5b"
+    model: str = "qwen2.5-coder:3b"
     max_size_diff: conint(ge=1) = 4096
     message_max_length: conint(ge=1) = 150
