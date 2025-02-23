@@ -53,7 +53,7 @@ def test_parse_output():
 
 def test_parse_output_truncated():
     """Tests the truncation of the extracted summary."""
-    commit_msg = parse_output(OUTPUT_MODEL_1, max_length_commit_message=10)
+    commit_msg = parse_output(OUTPUT_MODEL_1, message_max_length=10)
     assert (
         commit_msg == COMMIT_MSG_TRUNCATED
     ), "Issue when truncating the extracted commit message from the model output"
@@ -63,7 +63,7 @@ def test_parse_output_missing_both_xml():
     """Tests the error handling when the XML tags are both missing"""
     with pytest.raises(ValueError):
         (
-            parse_output(OUTPUT_MODEL_2, max_length_commit_message=1000),
+            parse_output(OUTPUT_MODEL_2, message_max_length=1000),
             "Issue when checking for raised error due to both summary tags missing",
         )
 
@@ -72,6 +72,6 @@ def test_parse_output_missing_one_xml():
     """Tests the error handling when one of the XML tags is missing"""
     with pytest.raises(ValueError):
         (
-            parse_output(OUTPUT_MODEL_3, max_length_commit_message=1000),
+            parse_output(OUTPUT_MODEL_3, message_max_length=1000),
             "Issue when checking for raised error due to one missing summary tag",
         )

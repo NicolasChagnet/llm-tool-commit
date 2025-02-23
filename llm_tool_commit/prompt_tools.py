@@ -15,12 +15,12 @@ def get_prompt(git_diff: str, length_git_commit: int) -> str:
 """
 
 
-def parse_output(model_response: str, max_length_commit_message: int) -> str:
+def parse_output(model_response: str, message_max_length: int) -> str:
     """Parses the response of the model to extract the commit message. Raises a ValueError if no XML `<summary>` tag can be found. Truncate the commit message
 
     Args:
         model_response (str): Response of the LLM.
-        max_length_commit_message (int): Maximal length of the commit message. The message will be automatically truncated above this.
+        message_max_length (int): Maximal length of the commit message. The message will be automatically truncated above this.
 
     Returns:
         str: Commit message returned by the LLM.
@@ -38,5 +38,5 @@ def parse_output(model_response: str, max_length_commit_message: int) -> str:
     commit_message = model_response[position_begin:position_end]
 
     # Truncate the commit message if necessary
-    truncation_point = min(len(commit_message), max_length_commit_message)
+    truncation_point = min(len(commit_message), message_max_length)
     return commit_message[:truncation_point]
