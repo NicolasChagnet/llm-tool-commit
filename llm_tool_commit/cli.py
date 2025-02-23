@@ -6,6 +6,6 @@ from llm_tool_commit.config import ToolConfiguration
 
 @click.command()
 @from_pydantic(ToolConfiguration)
-def entrypoint(config: ToolConfiguration):
+def entrypoint(tool_configuration: ToolConfiguration):
     """Entry point of the CLI application."""
     pass
