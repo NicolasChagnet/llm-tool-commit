@@ -151,6 +151,7 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "ollama-python" },
+    { name = "pydantic" },
     { name = "typer" },
 ]
 
@@ -162,6 +163,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "ollama-python", specifier = ">=0.1.2" },
+    { name = "pydantic", specifier = ">=2.10.6" },
     { name = "typer", specifier = ">=0.15.1" },
 ]
 
