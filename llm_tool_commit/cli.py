@@ -25,10 +25,13 @@ def entrypoint(tool_configuration: ToolConfiguration, model_options: ModelOption
     git_diff_truncated = truncate_git_diff(git_diff=git_diff, max_size=tool_configuration.max_size_diff)
 
     # Build prompt and query the LLM
-    prompt = get_prompt(git_diff=git_diff_truncated, length_git_commit=tool_configuration.message_max_length)
+    prompt = get_prompt(
+        git_diff=git_diff_truncated,
+        length_git_commit=tool_configuration.message_max_length,
+        type_commit=tool_configuration.type_commit,
+    )
     response = generate(model=tool_configuration.model, prompt=prompt, options=model_options.model_dump())
     response_content = response["response"]
-    print(response_content)
     try:
         parsed_response = parse_output(response_content, message_max_length=tool_configuration.message_max_length)
         click.echo(parsed_response)

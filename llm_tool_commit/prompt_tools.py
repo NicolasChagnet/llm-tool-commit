@@ -1,7 +1,7 @@
 CONVENTIONAL_COMMIT = """
 <type>: <description>
 
-with the possible values for <type>:
+Possible <types> and commits they describe:
 
 - feat: Commits that add or remove a new feature to the API or UI
 - fix: Commits that fix a API or UI bug of a preceded feat commit
@@ -16,24 +16,27 @@ with the possible values for <type>:
 """
 
 
-def get_prompt(git_diff: str, length_git_commit: int) -> str:
+def get_prompt(git_diff: str, length_git_commit: int, type_commit: str | None = None) -> str:
     """Returns the prompt to feed the LLM.
 
     Args:
         git_diff (str): Truncated output of the `git diff --cached` command.
         length_git_commit (int): Maximal length in words of the commit message
+        type_commit (str): Type of commit to guide the LLM. Defaults to None.
 
     Returns:
         str: User prompt specifying the query.
     """
-
+    type_commit_str = f"Make sure to choose {type_commit} as <type>" if type_commit is not None else ""
     return f"""Summarize the changes made in the staged files from the output of the `git diff --cached` command placed between the XML tags <diff>, following these guidelines:
     - You must keep the response under {length_git_commit} words. 
     - You must focus on why the changes were made.
     - Place the summary inside <summary> XML tags.
-    - Follow the conventional commit format defined between the XML tags <format>
+    - Follow the conventional commit format defined between the XML tags <format>.
     
 <format>{CONVENTIONAL_COMMIT}</format>    
+
+{type_commit_str}
 
 <diff>{git_diff}</diff>
 """

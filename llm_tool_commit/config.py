@@ -12,7 +12,7 @@ class ModelOptions(BaseModel):
     """
 
     temperature: confloat(ge=0.0, le=1.0) = 0.4
-    top_p: confloat(ge=0.0, le=1.0) = 1.0
+    top_p: confloat(ge=0.0, le=1.0) = 0.9
     top_k: conint(ge=1) = 40
     num_predict: conint(ge=-1) = 2048
 
@@ -24,8 +24,10 @@ class ToolConfiguration(BaseModel):
         model (str): Name of model to use (available through Ollama). Defaults to Qwen2.5-coder with 3B parameters.
         max_size_diff (int): Maximum size of the git diff to use before truncating. Should be an integer greater than 1. Defaults to 4096.
         message_max_length (int): Maximal length of the commit message. Should be an integer greater than 1. Defaults to 150.
+        type_commit (str | None): Type of the commit to guide the LLM. Defaults to None.
     """
 
     model: str = "qwen2.5-coder:3b"
     max_size_diff: conint(ge=1) = 4096
     message_max_length: conint(ge=1) = 150
+    type_commit: str | None = None
