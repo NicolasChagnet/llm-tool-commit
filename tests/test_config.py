@@ -14,6 +14,7 @@ def test_default_configuration():
     assert hasattr(config, "temperature"), "No attribute `temperature`"
     assert hasattr(config, "top_p"), "No attribute `top_p`"
     assert hasattr(config, "top_k") and isinstance(config.top_k, int), "No attribute `top_k`"
+    assert hasattr(config, "message_max_length"), "No attribute `message_max_length`"
 
     # Check validity of values
     assert isinstance(config.model, str), "`model` should a string"
@@ -25,6 +26,9 @@ def test_default_configuration():
         isinstance(config.top_p, float) and config.top_p >= 0.0 and config.top_p <= 1.0
     ), "`top_p` should be a floating number between 0.0 and 1.0"
     assert isinstance(config.top_k, int) and config.top_k >= 1, "`top_k` should be an integer greater than 1"
+    assert (
+        isinstance(config.message_max_length, int) and config.message_max_length >= 1
+    ), "`message_max_length` should be an integer greater than 1"
 
 
 def test_wrong_configuration():
@@ -49,3 +53,6 @@ def test_wrong_configuration():
 
     with pytest.raises(ValidationError):
         ToolConfiguration(top_k=0)
+
+    with pytest.raises(ValidationError):
+        ToolConfiguration(message_max_length=0)
