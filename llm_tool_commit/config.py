@@ -21,7 +21,7 @@ class ToolConfiguration(BaseModel):
     """Configuration class.
 
     Attributes:
-        model (str): Name of model to use (available through Ollama). Defaults to Qwen2.5-coder with 1.5B parameters.
+        model (str): Name of model to use (available through Ollama). Defaults to Qwen2.5-coder with 3B parameters.
         max_size_diff (int): Maximum size of the git diff to use before truncating. Should be an integer greater than 1. Defaults to 4096.
         message_max_length (int): Maximal length of the commit message. Should be an integer greater than 1. Defaults to 150.
     """
