@@ -46,7 +46,7 @@ Is there anything else I can help you with?
 
 def test_parse_output():
     """Tests the extraction of the summary from the XML tags"""
-    commit_msg = parse_output(OUTPUT_MODEL_1, max_length_commit_message=1000)
+    commit_msg = parse_output(OUTPUT_MODEL_1, message_max_length=1000)
     print(commit_msg)
     assert commit_msg == COMMIT_MSG, "Issue when extract the commit message from the model output"
 
