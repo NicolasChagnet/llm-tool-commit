@@ -1,10 +1,16 @@
 [project]
 name = "llm-tool-commit"
+authors=[{name="Nicolas Chagnet"}]
 version = "0.1.0"
-description = "Add your description here"
+description = "Small CLI tool used to generate commit messages using local LLMs."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "ollama-python>=0.1.2",
     "typer>=0.15.1",
 ]
+license = "MIT"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
