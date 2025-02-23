@@ -63,6 +63,7 @@ def parse_output(model_response: str, message_max_length: int) -> str:
     if position_begin > position_end:
         raise ValueError("Invalid placement of <summary> tags in the model response.")
     commit_message = model_response[position_begin:position_end]
+    commit_message = clean_commit_message(commit_message)
 
     # Truncate the commit message if necessary
     truncated_commit = truncate_sentence(commit_message, max_words=message_max_length)
@@ -75,3 +76,11 @@ def truncate_sentence(sentence: str, max_words: int) -> str:
     max_words = min(max_words, len(sentence_split))
     sentence_reconstructed = " ".join(sentence_split[:max_words])
     return sentence_reconstructed
+
+
+def clean_commit_message(message: str) -> str:
+    """Cleans the commit message by removing backticks and extra whitespaces."""
+
+    message_no_backticks = message.replace("`", "'")
+    message_no_whitespace = message_no_backticks.strip().replace("  ", " ")
+    return message_no_whitespace

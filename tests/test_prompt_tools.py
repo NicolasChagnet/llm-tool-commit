@@ -1,6 +1,6 @@
 import pytest
 
-from llm_tool_commit.prompt_tools import parse_output, truncate_sentence
+from llm_tool_commit.prompt_tools import clean_commit_message, parse_output, truncate_sentence
 
 COMMIT_MSG = """fix(api): handle empty response from server
 
@@ -80,3 +80,11 @@ def test_parse_output_missing_one_xml():
 def test_truncate_sentence():
     assert truncate_sentence("This is an example of a sentence", 5) == "This is an example of"
     assert truncate_sentence("This is an example of a sentence", 8) == "This is an example of a sentence"
+
+
+def test_clean_commit_message():
+    assert clean_commit_message("This is a `word`") == "This is a 'word'", "Issue when cleaning backticks"
+    assert (
+        clean_commit_message(" This is a sentence  with too much whitespaces  ")
+        == "This is a sentence with too much whitespaces"
+    ), "Issue when removing extra whitespace"
