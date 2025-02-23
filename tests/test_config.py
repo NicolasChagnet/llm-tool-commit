@@ -11,6 +11,7 @@ def test_model_options():
     assert hasattr(model_options, "temperature"), "No attribute `temperature`"
     assert hasattr(model_options, "top_p"), "No attribute `top_p`"
     assert hasattr(model_options, "top_k"), "No attribute `top_k`"
+    assert hasattr(model_options, "num_predict"), "No attribute `num_predict`"
 
     # Check validity of values
     assert (
@@ -24,6 +25,9 @@ def test_model_options():
     assert (
         isinstance(model_options.top_k, int) and model_options.top_k >= 1
     ), "`top_k` should be an integer greater than 1"
+    assert (
+        isinstance(model_options.num_predict, int) and model_options.num_predict >= 1
+    ), "`num_predict` should be an integer greater than 1"
 
 
 def test_default_configuration():
@@ -32,13 +36,10 @@ def test_default_configuration():
 
     # Check each attribute
     assert hasattr(config, "model"), "No attribute `model`"
-    assert hasattr(config, "max_size"), "No attribute `max_size`"
-    assert hasattr(config, "model_options"), "No attribute `model_options`"
     assert hasattr(config, "message_max_length"), "No attribute `message_max_length`"
 
     # Check validity of values
     assert isinstance(config.model, str), "`model` should a string"
-    assert isinstance(config.max_size, int) and config.max_size >= 1, "`max_size` should be an integer greater than 1"
     assert (
         isinstance(config.message_max_length, int) and config.message_max_length >= 1
     ), "`message_max_length` should be an integer greater than 1"
@@ -50,14 +51,15 @@ def test_wrong_configuration():
         ToolConfiguration(model=0)
 
     with pytest.raises(ValidationError):
-        ToolConfiguration(max_size=1.5)
-
-    with pytest.raises(ValidationError):
         ToolConfiguration(message_max_length=0)
 
 
 def test_wrong_model_options():
     """Tests model options objects with erroneous input."""
+
+    with pytest.raises(ValidationError):
+        ToolConfiguration(num_predict=-2)
+
     with pytest.raises(ValidationError):
         ToolConfiguration(temperature=2.0)
 
