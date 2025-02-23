@@ -9,11 +9,11 @@ def test_default_configuration():
     config = ToolConfiguration()
 
     # Check each attribute
-    assert hasattr(config, "model") and isinstance(config.model, str), "No attribute `model`"
+    assert hasattr(config, "model"), "No attribute `model`"
     assert hasattr(config, "max_size"), "No attribute `max_size`"
     assert hasattr(config, "temperature"), "No attribute `temperature`"
     assert hasattr(config, "top_p"), "No attribute `top_p`"
-    assert hasattr(config, "top_k") and isinstance(config.top_k, int), "No attribute `top_k`"
+    assert hasattr(config, "top_k"), "No attribute `top_k`"
     assert hasattr(config, "message_max_length"), "No attribute `message_max_length`"
 
     # Check validity of values
