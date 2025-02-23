@@ -37,12 +37,16 @@ def test_default_configuration():
     # Check each attribute
     assert hasattr(config, "model"), "No attribute `model`"
     assert hasattr(config, "message_max_length"), "No attribute `message_max_length`"
+    assert hasattr(config, "max_size_diff"), "No attribute `max_size_diff`"
 
     # Check validity of values
     assert isinstance(config.model, str), "`model` should a string"
     assert (
         isinstance(config.message_max_length, int) and config.message_max_length >= 1
     ), "`message_max_length` should be an integer greater than 1"
+    assert (
+        isinstance(config.max_size_diff, int) and config.max_size_diff >= 1
+    ), "`max_size_diff` should be an integer greater than 1"
 
 
 def test_wrong_configuration():
@@ -52,6 +56,9 @@ def test_wrong_configuration():
 
     with pytest.raises(ValidationError):
         ToolConfiguration(message_max_length=0)
+
+    with pytest.raises(ValidationError):
+        ToolConfiguration(max_size_diff=0)
 
 
 def test_wrong_model_options():
