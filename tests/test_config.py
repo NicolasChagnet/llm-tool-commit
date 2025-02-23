@@ -65,19 +65,19 @@ def test_wrong_model_options():
     """Tests model options objects with erroneous input."""
 
     with pytest.raises(ValidationError):
-        ToolConfiguration(num_predict=-2)
+        ModelOptions(num_predict=-2)
 
     with pytest.raises(ValidationError):
-        ToolConfiguration(temperature=2.0)
+        ModelOptions(temperature=2.0)
 
     with pytest.raises(ValidationError):
-        ToolConfiguration(temperature=-1.0)
+        ModelOptions(temperature=-1.0)
 
     with pytest.raises(ValidationError):
-        ToolConfiguration(top_p=2.0)
+        ModelOptions(top_p=2.0)
 
     with pytest.raises(ValidationError):
-        ToolConfiguration(top_k=1.5)
+        ModelOptions(top_k=1.5)
 
     with pytest.raises(ValidationError):
-        ToolConfiguration(top_k=0)
+        ModelOptions(top_k=0)
