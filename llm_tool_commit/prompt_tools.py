@@ -1,3 +1,21 @@
+CONVENTIONAL_COMMIT = """
+<type>: <description>
+
+with the possible values for <type>:
+
+- feat: Commits that add or remove a new feature to the API or UI
+- fix: Commits that fix a API or UI bug of a preceded feat commit
+- refactor: Commits that rewrite/restructure your code, however do not change any API or UI behaviour
+- perf: Special refactor commits, that improve performance
+- style: Commits that do not affect the meaning (white-space, formatting, missing semi-colons, etc)
+- test: Commits that add missing tests or correcting existing tests
+- docs: Commits that affect documentation only
+- build: Commits that affect build components like build tool, ci pipeline, dependencies, project version, ...
+- ops: Commits that affect operational components like infrastructure, deployment, backup, recovery, ...
+- chore: Miscellaneous commits e.g. modifying .gitignore
+"""
+
+
 def get_prompt(git_diff: str, length_git_commit: int) -> str:
     """Returns the prompt to feed the LLM.
 
@@ -9,7 +27,13 @@ def get_prompt(git_diff: str, length_git_commit: int) -> str:
         str: User prompt specifying the query.
     """
 
-    return f"""Please summarize the changes made in the staged files from the output of the `git diff --cached` command placed between the XML tags <diff>. You must keep the response under {length_git_commit} words. Focus on why the changes were made. Place the summary inside <summary> XML tags.
+    return f"""Summarize the changes made in the staged files from the output of the `git diff --cached` command placed between the XML tags <diff>, following these guidelines:
+    - You must keep the response under {length_git_commit} words. 
+    - You must focus on why the changes were made.
+    - Place the summary inside <summary> XML tags.
+    - Follow the conventional commit format defined between the XML tags <format>
+    
+<format>{CONVENTIONAL_COMMIT}</format>    
 
 <diff>{git_diff}</diff>
 """
