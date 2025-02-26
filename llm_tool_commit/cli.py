@@ -13,7 +13,7 @@ from llm_tool_commit.prompt_tools import get_prompt, get_system_prompt, parse_ou
 @from_pydantic(ToolConfiguration)
 @from_pydantic(ModelOptions)
 def entrypoint(tool_configuration: ToolConfiguration, model_options: ModelOptions):
-    """Entry point of the CLI application."""
+    """CLI tool to analyze git diffs and generate a commit message using a local LLM."""
 
     # Get the git diff of staged files
     git_diff = get_git_diff_raw()
