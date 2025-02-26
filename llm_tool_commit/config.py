@@ -11,7 +11,7 @@ class ModelOptions(BaseModel):
         num_predict (int): Maximum number of tokens for the LLM to predict. Should be positive or -1 (no limit).  Defaults to 2048.
     """
 
-    temperature: confloat(ge=0.0, le=1.0) = 0.4
+    temperature: confloat(ge=0.0, le=1.0) = 0.8
     top_p: confloat(ge=0.0, le=1.0) = 0.9
     top_k: conint(ge=1) = 40
     num_predict: conint(ge=-1) = 2048
