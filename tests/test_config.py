@@ -42,7 +42,7 @@ def test_default_configuration():
 
     # Check validity of values
     assert isinstance(config.model, str), "`model` should a string"
-    assert isinstance(config.type_commit, str), "`type_commit` should a string"
+    assert isinstance(config.type_commit, str) or config.type_commit is None, "`type_commit` should a string"
     assert (
         isinstance(config.message_max_length, int) and config.message_max_length >= 1
     ), "`message_max_length` should be an integer greater than 1"

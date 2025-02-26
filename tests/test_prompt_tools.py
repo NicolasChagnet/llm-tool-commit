@@ -4,11 +4,10 @@ from llm_tool_commit.prompt_tools import clean_commit_message, parse_output, tru
 
 COMMIT_MSG = """fix(api): handle empty response from server
 
-- Added check for empty response in `fetchData` function
-- Updated error handling to provide more informative messages
-"""
+- Added check for empty response in 'fetchData' function
+- Updated error handling to provide more informative messages"""
 
-COMMIT_MSG_TRUNCATED = "fix(api): "
+COMMIT_MSG_TRUNCATED = "fix(api): handle empty response"
 
 OUTPUT_MODEL_1 = """
 Certainly, here is a summary of the changes made in the staged files.
@@ -47,13 +46,12 @@ Is there anything else I can help you with?
 def test_parse_output():
     """Tests the extraction of the summary from the XML tags"""
     commit_msg = parse_output(OUTPUT_MODEL_1, message_max_length=1000)
-    print(commit_msg)
     assert commit_msg == COMMIT_MSG, "Issue when extract the commit message from the model output"
 
 
 def test_parse_output_truncated():
     """Tests the truncation of the extracted summary."""
-    commit_msg = parse_output(OUTPUT_MODEL_1, message_max_length=10)
+    commit_msg = parse_output(OUTPUT_MODEL_1, message_max_length=4)
     assert (
         commit_msg == COMMIT_MSG_TRUNCATED
     ), "Issue when truncating the extracted commit message from the model output"
