@@ -6,7 +6,7 @@ from pydanclick import from_pydantic
 
 from llm_tool_commit.config import ModelOptions, ToolConfiguration
 from llm_tool_commit.git_input import get_git_diff_raw, truncate_git_diff
-from llm_tool_commit.prompt_tools import get_prompt, parse_output
+from llm_tool_commit.prompt_tools import get_prompt, get_system_prompt, parse_output
 
 
 @click.command()
@@ -30,7 +30,9 @@ def entrypoint(tool_configuration: ToolConfiguration, model_options: ModelOption
         length_git_commit=tool_configuration.message_max_length,
         type_commit=tool_configuration.type_commit,
     )
-    response = generate(model=tool_configuration.model, prompt=prompt, options=model_options.model_dump())
+    response = generate(
+        model=tool_configuration.model, prompt=prompt, system=get_system_prompt(), options=model_options.model_dump()
+    )
     response_content = response["response"]
     try:
         parsed_response = parse_output(response_content, message_max_length=tool_configuration.message_max_length)

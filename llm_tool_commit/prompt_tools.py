@@ -1,19 +1,19 @@
-CONVENTIONAL_COMMIT = """
-<type>: <description>
+def get_system_prompt() -> str:
+    """Returns the system prompt."""
+    system_prompt = """You are a helpful assistant specialized in summarizing code diffs and crafting concise git commit messages. When writing a commit message, think carefully and write a summary in the format:
+<summary>TYPE: SUMMARY</summary>
+The TYPE parameter can be:
+- 'feat' for changes involving new features, 
+- 'fix' for small bugfixes,
+- 'refactor' for changes which rewrite or restructure the code without changing the logic,
+- 'perf' for changes aimed at improving performance,
+- 'test' for changes adding, removing or modifying tests,
+- 'docs' for changes affecting the documentation, comments or docstrings,
+- 'build' for changes affecting the build system such as build tools, CI pipelines, dependencies, project version and manifest.
 
-Possible <types> and commits they describe:
-
-- feat: Commits that add or remove a new feature to the API or UI
-- fix: Commits that fix a API or UI bug of a preceded feat commit
-- refactor: Commits that rewrite/restructure your code, however do not change any API or UI behaviour
-- perf: Special refactor commits, that improve performance
-- style: Commits that do not affect the meaning (white-space, formatting, missing semi-colons, etc)
-- test: Commits that add missing tests or correcting existing tests
-- docs: Commits that affect documentation only
-- build: Commits that affect build components like build tool, ci pipeline, dependencies, project version, ...
-- ops: Commits that affect operational components like infrastructure, deployment, backup, recovery, ...
-- chore: Miscellaneous commits e.g. modifying .gitignore
+If the user does not specify a value for TYPE, choose one that matches the changes.
 """
+    return system_prompt
 
 
 def get_prompt(git_diff: str, length_git_commit: int, type_commit: str | None = None) -> str:
@@ -27,17 +27,13 @@ def get_prompt(git_diff: str, length_git_commit: int, type_commit: str | None = 
     Returns:
         str: User prompt specifying the query.
     """
-    type_commit_str = f"Make sure to choose {type_commit} as <type>" if type_commit is not None else ""
-    return f"""Summarize the changes made in the staged files from the output of the `git diff --cached` command placed between the XML tags <diff>, following these guidelines:
+    type_commit_str = f"- Make sure to choose {type_commit} as value for TYPE" if type_commit is not None else ""
+    return f"""Summarize the diff placed between the XML tags <diff>, following these guidelines:
     - You must keep the response under {length_git_commit} words. 
     - You must focus on why the changes were made.
     - Place the summary inside <summary> XML tags.
-    - Follow the conventional commit format defined between the XML tags <format>.
+    {type_commit_str}
     
-<format>{CONVENTIONAL_COMMIT}</format>    
-
-{type_commit_str}
-
 <diff>{git_diff}</diff>
 """
 
