@@ -31,7 +31,7 @@ def test_git_raw_code():
         mock_run.return_value.stdout = MOCK_GIT_DIFF_CACHED
         mock_run.return_value.returncode = 1
 
-        with pytest.raises(ValueError):
+        with pytest.raises(SystemExit):
             get_git_diff_raw()
 
 
