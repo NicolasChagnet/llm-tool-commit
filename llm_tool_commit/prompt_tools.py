@@ -77,6 +77,6 @@ def truncate_sentence(sentence: str, max_words: int) -> str:
 def clean_commit_message(message: str) -> str:
     """Cleans the commit message by removing backticks and extra whitespaces."""
 
-    message_no_backticks = message.replace("`", "'")
+    message_no_backticks = message.replace("`", "'").replace('"', "'")
     message_no_whitespace = message_no_backticks.strip().replace("  ", " ")
     return message_no_whitespace

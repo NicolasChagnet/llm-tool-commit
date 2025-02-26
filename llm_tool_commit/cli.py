@@ -5,7 +5,7 @@ from ollama import generate
 from pydanclick import from_pydantic
 
 from llm_tool_commit.config import ModelOptions, ToolConfiguration
-from llm_tool_commit.git_input import get_git_diff_raw, truncate_git_diff
+from llm_tool_commit.git_input import get_git_diff_raw, set_git_commit, truncate_git_diff
 from llm_tool_commit.prompt_tools import get_prompt, get_system_prompt, parse_output
 
 
@@ -37,6 +37,9 @@ def entrypoint(tool_configuration: ToolConfiguration, model_options: ModelOption
     try:
         parsed_response = parse_output(response_content, message_max_length=tool_configuration.message_max_length)
         click.echo(parsed_response)
+        answer = input("Would you like to make a commit with this message? [y/N]: ")
+        if answer.lower() == "y":
+            set_git_commit(parsed_response)
     except ValueError as error:
         click.echo(str(error))
         sys.exit(0)
